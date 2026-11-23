@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'picsum.photos' },
     ],
   },
-  serverExternalPackages: ['bcryptjs', '@prisma/client', 'prisma'],
   turbopack: {
     rules: {
       "*.css": {
