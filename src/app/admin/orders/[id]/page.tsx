@@ -44,6 +44,7 @@ interface Order {
   trackingNumber?: string | null
   trackingUrl?: string | null
   notes?: string | null
+  paymentMethod?: string | null
   createdAt: string
   updatedAt: string
   items: OrderItem[]
