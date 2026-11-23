@@ -10,6 +10,8 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts",
     "db:studio": "prisma studio",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf:build": "npx @cloudflare/next-on-pages",
     "cf:preview": "npx wrangler pages dev .vercel/output/static"
   },
@@ -41,6 +43,8 @@
     "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.18",
+    "wrangler": "^4.0.0",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
