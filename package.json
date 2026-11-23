@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node -e \"if (!process.env.CF_OPENNEXT_SKIP) require('child_process').execSync('opennextjs-cloudflare build', {env: Object.assign({}, process.env, {CF_OPENNEXT_SKIP: '1'}), stdio: 'inherit'})\"",
     "start": "next start",
     "lint": "eslint",
     "db:migrate": "prisma migrate dev",
