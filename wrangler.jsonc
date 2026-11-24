@@ -26,5 +26,7 @@
     "issue_detection": {
       "enabled": true
     }
+  },"vars": {
+    "NEXTAUTH_URL": "luxeshop.amitgairola22.workers.dev"
   }
 }
