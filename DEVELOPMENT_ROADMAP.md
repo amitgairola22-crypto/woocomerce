@@ -72,12 +72,14 @@
 - [x] Account profile API
 - [x] Analytics API
 - [x] Newsletter API
+- [x] Health check API (`/api/health`)
 
 ## Phase 7 — Polish & Production ✓ Complete
 
 - [x] Security hardening (auth guards, input validation, rate limiting prep)
 - [x] Cloudflare Pages deployment via OpenNext
 - [x] Neon PostgreSQL (serverless) database
+- [x] Keep-alive cron (GitHub Actions, every 4 min) to prevent Neon auto-suspend cold starts
 - [ ] Email templates (order confirmation)
 - [ ] SEO: sitemap.xml, robots.txt
 - [ ] Accessibility audit (ARIA, keyboard nav, contrast)

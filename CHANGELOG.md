@@ -6,6 +6,21 @@ Format: `## [version] — YYYY-MM-DD` with sections `Added`, `Changed`, `Fixed`,
 
 ---
 
+## [0.2.0] — 2026-11-24
+
+### Added
+- `GET /api/health` — edge endpoint that pings the DB with `SELECT 1`; used by keep-alive cron
+- `.github/workflows/keep-alive.yml` — GitHub Actions cron (every 4 min) that hits `/api/health` to prevent Neon auto-suspend cold starts
+
+### Fixed
+- Intermittent "server error" on first load after inactivity (Neon DB auto-suspend cold start)
+
+### Removed
+- `.claude/` skills directory, `CLAUDE.md`, and `AGENTS.md` from repository
+- `.open-next/` build artifacts from git history (contained baked-in env vars)
+
+---
+
 ## [0.1.0] — 2026-11-23
 
 ### Added
@@ -25,7 +40,6 @@ Format: `## [version] — YYYY-MM-DD` with sections `Added`, `Changed`, `Fixed`,
 - Neon PostgreSQL database configuration (serverless, all environments)
 - Environment variable configuration (`.env`, `.env.example`)
 - Full documentation suite:
-  - `CLAUDE.md` — development instructions and coding standards
   - `PROJECT_REQUIREMENTS.md` — feature requirements and checklist
   - `TECH_STACK.md` — technology choices and rationale
   - `DATABASE_SCHEMA.md` — schema documentation
@@ -47,8 +61,5 @@ Format: `## [version] — YYYY-MM-DD` with sections `Added`, `Changed`, `Fixed`,
   - react-hook-form, @hookform/resolvers, zod
   - bcryptjs, slugify, sharp
 
-### In Progress
-- NextAuth.js configuration
-- Prisma client + seed data
-- Base layout components
-- Homepage
+### Completed
+- Full storefront, admin dashboard, API layer, Cloudflare deployment (see roadmap for details)

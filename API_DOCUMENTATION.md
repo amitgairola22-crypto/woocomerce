@@ -199,6 +199,18 @@ Dashboard statistics.
 
 ---
 
+## Health
+
+### `GET /api/health`
+Database connectivity check. Used by the keep-alive cron to prevent Neon auto-suspend cold starts.
+
+**Response (200):** `{ "status": "ok" }`
+**Response (503):** `{ "status": "error" }` — DB unreachable.
+
+No authentication required.
+
+---
+
 ## Error Format
 
 All errors return:

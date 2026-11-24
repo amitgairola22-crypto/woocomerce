@@ -66,14 +66,24 @@ In the Cloudflare Pages dashboard → Settings → Environment variables, add al
 npx prisma migrate deploy
 ```
 
-### 5. Stripe Webhooks
+### 5. Neon Keep-Alive (Auto-Suspend Prevention)
+
+Neon free tier suspends the database after 5 minutes of inactivity. A GitHub Actions cron job pings `/api/health` every 4 minutes to prevent cold-start errors.
+
+The workflow lives at `.github/workflows/keep-alive.yml` and runs automatically once pushed to GitHub. No configuration needed.
+
+To verify it's running: GitHub repo → **Actions** tab → **Keep Neon DB Alive**.
+
+If you upgrade to a Neon paid plan, you can disable auto-suspend entirely in the Neon Console → Project → Compute settings.
+
+### 6. Stripe Webhooks
 
 1. In Stripe Dashboard → Webhooks → Add endpoint
 2. URL: `https://your-domain.com/api/webhooks/stripe`
 3. Events to listen: `payment_intent.succeeded`, `payment_intent.payment_failed`
 4. Copy the signing secret to `STRIPE_WEBHOOK_SECRET`
 
-### 5. File Uploads in Production
+### 7. File Uploads in Production
 
 For production, replace local file storage with:
 
@@ -93,7 +103,7 @@ CLOUDINARY_API_SECRET=...
 npm install @aws-sdk/client-s3
 ```
 
-### 6. Post-Deploy Checklist
+### 8. Post-Deploy Checklist
 
 - [ ] Run `npx prisma migrate deploy` on production DB
 - [ ] Run seed if needed: `npx prisma db seed`
