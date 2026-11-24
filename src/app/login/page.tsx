@@ -14,7 +14,8 @@ import { Eye, EyeOff } from 'lucide-react'
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/'
+  const rawCallback = searchParams.get('callbackUrl') || '/'
+  const callbackUrl = rawCallback.startsWith('/') ? rawCallback : '/'
   const [showPass, setShowPass] = useState(false)
   const [error, setError] = useState('')
 
@@ -34,7 +35,6 @@ function LoginForm() {
       setError('Invalid email or password')
     } else {
       router.push(callbackUrl)
-      router.refresh()
     }
   }
 
@@ -83,11 +83,6 @@ function LoginForm() {
         </Button>
       </form>
 
-      <div className="mt-6 text-center">
-        <p className="text-sm text-neutral-500">
-          Demo admin: admin@store.com / admin123
-        </p>
-      </div>
     </div>
   )
 }
