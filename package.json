@@ -45,6 +45,9 @@
     "zod": "^4.6.7",
     "zustand": "^5.1.0"
   },
+  "overrides": {
+    "cookie": "^0.7.0"
+  },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.20.18",
     "@tailwindcss/turbopack": "4.3.3",

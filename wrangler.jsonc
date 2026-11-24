@@ -26,6 +26,7 @@
   },
   "vars": {
     "NEXTAUTH_URL": "https://luxeshop.amitgairola22.workers.dev",
-    "NEXT_PUBLIC_APP_URL": "https://luxeshop.amitgairola22.workers.dev"
+    "NEXT_PUBLIC_APP_URL": "https://luxeshop.amitgairola22.workers.dev",
+    "NEXT_PUBLIC_STRIPE_PUBLIC_KEY": "pk_live_REPLACE_ME"
   }
 }
