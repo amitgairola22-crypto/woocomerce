@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client'
-import { PrismaNeonHTTP } from '@prisma/adapter-neon'
-import { neon } from '@neondatabase/serverless'
+import { PrismaNeon } from '@prisma/adapter-neon'
+import { Pool, neonConfig } from '@neondatabase/serverless'
 
-// HTTP transport instead of WebSocket Pool:
-// - Stateless per-request — no persistent connection to drop
-// - Handles Neon auto-suspend gracefully (slow first query, never crashes)
-// - Correct for Cloudflare Workers where WS connections can't be shared across isolates
+// Keep WebSocket transport (Pool) — required for Prisma transactions.
+// neonConfig.fetchConnectionCache reduces cold-start failures on Neon free tier.
+neonConfig.fetchConnectionCache = true
+
 function createPrismaClient() {
-  const sql = neon(process.env.DATABASE_URL!)
-  const adapter = new PrismaNeonHTTP(sql)
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL! })
+  const adapter = new PrismaNeon(pool)
   return new PrismaClient({ adapter })
 }
 
