@@ -9,7 +9,7 @@ Format: `## [version] — YYYY-MM-DD` with sections `Added`, `Changed`, `Fixed`,
 ## [0.1.0] — 2026-11-23
 
 ### Added
-- Initial project scaffold (Next.js 15, TypeScript, Tailwind CSS)
+- Initial project scaffold (Next.js 16, TypeScript, Tailwind CSS)
 - Prisma 5 schema with all models:
   - User, Account, Session, VerificationToken (NextAuth)
   - Category, Product, ProductImage, ProductAttribute, ProductVariant
@@ -22,7 +22,7 @@ Format: `## [version] — YYYY-MM-DD` with sections `Added`, `Changed`, `Fixed`,
   - TaxRate
   - WishlistItem, CartItem
   - Banner, SiteSetting, Newsletter
-- SQLite database configuration for development
+- Neon PostgreSQL database configuration (serverless, all environments)
 - Environment variable configuration (`.env`, `.env.example`)
 - Full documentation suite:
   - `CLAUDE.md` — development instructions and coding standards

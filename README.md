@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LuxeShop
+
+A full-stack e-commerce platform built with Next.js, TypeScript, Prisma, NextAuth.js, and Stripe. Includes a customer-facing storefront, full admin dashboard, and REST API layer via Next.js Route Handlers. Deployed to Cloudflare via OpenNext.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4 |
+| ORM | Prisma 5 (Neon PostgreSQL) |
+| Auth | NextAuth.js v5 (Auth.js beta) |
+| Payments | Stripe |
+| State | Zustand |
+| Animation | Framer Motion |
+| Forms | React Hook Form + Zod |
+| Icons | Lucide React |
+| Deployment | Cloudflare Pages via OpenNext |
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Fill in the values in `.env`:
+
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | Neon PostgreSQL connection string (with `pgbouncer=true`) |
+| `DIRECT_URL` | Neon direct connection string (for migrations) |
+| `NEXTAUTH_URL` | Your site URL |
+| `NEXTAUTH_SECRET` | Random secret — `openssl rand -base64 32` |
+| `STRIPE_PUBLIC_KEY` | Stripe publishable key |
+| `STRIPE_SECRET_KEY` | Stripe secret key |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+| `NEXT_PUBLIC_APP_URL` | Your public site URL |
+| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key (client-side) |
+
+### 3. Set up the database
+
+```bash
+npm run db:migrate   # Apply migrations
+npm run db:seed      # Seed sample data
+```
+
+### 4. Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev          # Start dev server on :3000
+npm run build        # Production build
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run db:migrate   # Run Prisma migrations
+npm run db:seed      # Seed the database
+npm run db:studio    # Open Prisma Studio on :5555
+npm run deploy       # Build and deploy to Cloudflare
+npm run preview      # Build and preview on Cloudflare locally
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── (store)/            # Public storefront
+│   │   ├── page.tsx
+│   │   ├── products/
+│   │   ├── product/[slug]/
+│   │   ├── category/[slug]/
+│   │   ├── cart/
+│   │   ├── checkout/
+│   │   ├── account/
+│   │   ├── search/
+│   │   ├── about/
+│   │   └── collections/
+│   ├── admin/               # Admin dashboard (protected)
+│   │   ├── products/
+│   │   ├── categories/
+│   │   ├── orders/
+│   │   ├── customers/
+│   │   ├── discounts/
+│   │   ├── shipping/
+│   │   ├── banners/
+│   │   └── settings/
+│   └── api/                 # Route Handlers
+│       ├── auth/
+│       ├── products/
+│       ├── categories/
+│       ├── orders/
+│       ├── cart/
+│       ├── checkout/
+│       ├── coupons/
+│       ├── webhooks/stripe/
+│       ├── account/
+│       └── admin/
+├── components/
+│   ├── store/
+│   ├── admin/
+│   └── ui/
+├── lib/
+│   ├── prisma.ts
+│   ├── auth.ts
+│   ├── stripe.ts
+│   ├── utils.ts
+│   └── validations.ts
+└── store/
+    ├── cart.ts
+    └── ui.ts
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The project deploys to **Cloudflare Pages** using [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare).
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run deploy    # Build and deploy
+npm run preview   # Local Cloudflare preview
+```

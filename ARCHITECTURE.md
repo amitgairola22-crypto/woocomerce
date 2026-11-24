@@ -5,11 +5,11 @@
 ```
 Browser
   │
-  ├── Next.js App (Vercel / Node server)
+  ├── Next.js App (Cloudflare Pages / OpenNext)
   │     ├── React Server Components (SSR, data fetching)
   │     ├── Client Components (interactivity, cart, forms)
   │     └── Route Handlers (API endpoints)
-  │           ├── Prisma ORM ──► SQLite (dev) / PostgreSQL (prod)
+  │           ├── Prisma ORM ──► Neon PostgreSQL (serverless)
   │           ├── NextAuth.js ──► Session management
   │           └── Stripe SDK ──► Payment processing
   │

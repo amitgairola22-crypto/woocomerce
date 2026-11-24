@@ -1,6 +1,6 @@
 # Database Schema
 
-All models are defined in `prisma/schema.prisma`. The database is SQLite in development.
+All models are defined in `prisma/schema.prisma`. The database is Neon PostgreSQL (serverless) in all environments.
 
 ## Entity Relationship Overview
 

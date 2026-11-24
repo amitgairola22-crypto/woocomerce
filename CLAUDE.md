@@ -4,7 +4,7 @@ This file defines rules, conventions, and guidelines for all development on this
 
 ## Project Overview
 
-A full-stack e-commerce platform built with Next.js 15, TypeScript, Prisma/SQLite, NextAuth.js, and Stripe. It includes a customer-facing storefront, a full admin dashboard, and a REST-style API layer via Next.js Route Handlers.
+A full-stack e-commerce platform built with Next.js 16, TypeScript, Prisma/Neon PostgreSQL, NextAuth.js, and Stripe. It includes a customer-facing storefront, a full admin dashboard, and a REST-style API layer via Next.js Route Handlers. Deployed to Cloudflare Pages via OpenNext.
 
 ## Critical Rules
 
@@ -20,10 +20,10 @@ A full-stack e-commerce platform built with Next.js 15, TypeScript, Prisma/SQLit
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 15 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Language | TypeScript 5 |
 | Styling | Tailwind CSS v4 |
-| ORM | Prisma 5 (SQLite dev / PostgreSQL prod) |
+| ORM | Prisma 5 (Neon PostgreSQL) |
 | Auth | NextAuth.js v5 (Auth.js beta) |
 | Payments | Stripe |
 | State | Zustand |
@@ -95,7 +95,6 @@ src/
 
 - IDs: `cuid()` via Prisma.
 - Soft delete: set `isActive = false` rather than hard-deleting categories/products.
-- JSON stored in SQLite as serialized strings (Prisma handles this); parse with `JSON.parse()` where needed.
 - Run migrations: `npx prisma migrate dev --name <description>`.
 - Seed data: `npx prisma db seed` (runs `prisma/seed.ts`).
 
@@ -112,7 +111,7 @@ src/
 
 - Branch: `feature/`, `fix/`, `chore/`
 - Commits: `feat:`, `fix:`, `chore:`, `docs:`
-- Never commit node_modules, .env, dev.db, or /public/uploads/
+- Never commit node_modules, .env, or /public/uploads/
 
 ## Running the Project
 

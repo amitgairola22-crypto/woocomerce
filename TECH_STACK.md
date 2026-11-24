@@ -4,7 +4,7 @@
 
 | Technology | Version | Purpose |
 |---|---|---|
-| Next.js | 15 | Full-stack React framework (App Router, SSR, API Routes) |
+| Next.js | 16 | Full-stack React framework (App Router, SSR, API Routes) |
 | React | 19 | UI library |
 | TypeScript | 5 | Static typing |
 | Tailwind CSS | 4 | Utility-first styling |
@@ -18,9 +18,9 @@
 
 | Technology | Version | Purpose |
 |---|---|---|
-| Next.js Route Handlers | 15 | REST API endpoints |
+| Next.js Route Handlers | 16 | REST API endpoints |
 | Prisma | 5 | ORM for database access |
-| SQLite | 3 | Development database |
+| Neon PostgreSQL | serverless | Cloud database (via `@neondatabase/serverless`) |
 | NextAuth.js | v5 beta | Authentication & sessions |
 | bcryptjs | latest | Password hashing |
 | Stripe | latest | Payment processing |
@@ -28,13 +28,11 @@
 
 ## Database
 
-**Development:** SQLite (`prisma/dev.db`)
-- Zero-config, file-based, perfect for local development
-- Full SQL support via Prisma
-
-**Production:** PostgreSQL (recommended)
-- Change `DATABASE_URL` and `provider = "postgresql"` in `prisma/schema.prisma`
-- Run `npx prisma migrate deploy`
+**Neon PostgreSQL (serverless)** — used in all environments
+- Prisma adapter: `@prisma/adapter-neon` with `@neondatabase/serverless`
+- Connection pooling via pgbouncer (`DATABASE_URL` with `pgbouncer=true`)
+- Direct connection for migrations (`DIRECT_URL`)
+- Schema: `prisma/schema.prisma` with `provider = "postgresql"` and `driverAdapters` preview feature
 
 ## Authentication
 
@@ -62,12 +60,12 @@ Stripe:
 | Environment | Recommendation |
 |---|---|
 | Development | `npm run dev` on localhost:3000 |
-| Staging | Vercel preview deployments |
-| Production | Vercel + PlanetScale/Supabase PostgreSQL |
+| Preview | `npm run preview` — local Cloudflare edge preview |
+| Production | Cloudflare Pages via `@opennextjs/cloudflare` |
 
 ## Key Design Decisions
 
-1. **SQLite for dev** — zero friction for contributors; Prisma makes migration to PostgreSQL a one-line change.
+1. **Neon serverless PostgreSQL** — same DB in dev and prod; Prisma adapter handles connection pooling via pgbouncer automatically.
 2. **App Router** — enables React Server Components for fast initial loads and simplified data fetching.
 3. **Zustand for cart** — persisted to localStorage; synced with DB when user is logged in.
 4. **Route Groups** — `(store)` and `admin` share separate layouts without polluting the URL.

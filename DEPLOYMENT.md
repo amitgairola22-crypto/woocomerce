@@ -22,7 +22,8 @@ cp .env.example .env
 
 | Variable | Required | Description |
 |---|---|---|
-| `DATABASE_URL` | Yes | SQLite: `file:./dev.db` / PostgreSQL: `postgresql://...` |
+| `DATABASE_URL` | Yes | Neon PostgreSQL with pgbouncer: `postgresql://...?pgbouncer=true` |
+| `DIRECT_URL` | Yes | Neon direct connection (no pgbouncer, used for migrations) |
 | `NEXTAUTH_URL` | Yes | Full URL of the app (e.g. `https://store.com`) |
 | `NEXTAUTH_SECRET` | Yes | Random 32+ char string |
 | `STRIPE_PUBLIC_KEY` | Yes | Stripe publishable key |
@@ -31,44 +32,41 @@ cp .env.example .env
 | `NEXT_PUBLIC_APP_URL` | Yes | Same as NEXTAUTH_URL |
 | `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Yes | Same as STRIPE_PUBLIC_KEY |
 
-## Production on Vercel
+## Production on Cloudflare Pages
 
 ### 1. Push to GitHub
 
 ```bash
-git init
 git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/yourname/store.git
+git commit -m "feat: ready for deployment"
 git push -u origin main
 ```
 
-### 2. Create Vercel Project
-
-1. Import from GitHub on vercel.com
-2. Add all environment variables from `.env`
-3. Set `DATABASE_URL` to your PostgreSQL connection string
-
-### 3. Database (PostgreSQL)
-
-Options:
-- **Supabase** (free tier) — `postgresql://...supabase.co:5432/postgres`
-- **PlanetScale** — MySQL-compatible, Prisma supported
-- **Neon** — serverless PostgreSQL, Vercel integration available
-- **Railway** — simple, affordable
+### 2. Deploy with OpenNext
 
 ```bash
-# Update prisma/schema.prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+npm run deploy    # builds and deploys to Cloudflare Pages
+npm run preview   # local Cloudflare edge preview
+```
 
-# Run migration
+Or set up automatic deployments via the Cloudflare Pages dashboard by linking your GitHub repo.
+
+### 3. Set Environment Variables
+
+In the Cloudflare Pages dashboard → Settings → Environment variables, add all variables from `.env`:
+- `DATABASE_URL` (Neon pgbouncer URL)
+- `DIRECT_URL` (Neon direct URL)
+- `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
+- `STRIPE_PUBLIC_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
+- `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_STRIPE_PUBLIC_KEY`
+
+### 4. Apply Database Migrations
+
+```bash
 npx prisma migrate deploy
 ```
 
-### 4. Stripe Webhooks
+### 5. Stripe Webhooks
 
 1. In Stripe Dashboard → Webhooks → Add endpoint
 2. URL: `https://your-domain.com/api/webhooks/stripe`
@@ -108,9 +106,11 @@ npm install @aws-sdk/client-s3
 ## Build Commands
 
 ```bash
-npm run build    # Production build
-npm run start    # Start production server
-npm run lint     # ESLint check
+npm run build      # Production Next.js build
+npm run start      # Start production server (Node)
+npm run lint       # ESLint check
+npm run deploy     # Build + deploy to Cloudflare Pages
+npm run preview    # Build + preview on local Cloudflare edge
 ```
 
 ## Docker (Optional)
