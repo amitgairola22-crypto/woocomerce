@@ -33,6 +33,7 @@
 - Connection pooling via pgbouncer (`DATABASE_URL` with `pgbouncer=true`)
 - Direct connection for migrations (`DIRECT_URL`)
 - Schema: `prisma/schema.prisma` with `provider = "postgresql"` and `driverAdapters` preview feature
+- **Cloudflare Workers**: `Pool` (WebSocket) is per-request via React `cache()` — prevents the "Cannot perform I/O on behalf of a different request" error caused by WebSocket context binding
 
 ## Authentication
 
@@ -66,7 +67,8 @@ Stripe:
 ## Key Design Decisions
 
 1. **Neon serverless PostgreSQL** — same DB in dev and prod; Prisma adapter handles connection pooling via pgbouncer automatically.
-2. **App Router** — enables React Server Components for fast initial loads and simplified data fetching.
-3. **Zustand for cart** — persisted to localStorage; synced with DB when user is logged in.
-4. **Route Groups** — `(store)` and `admin` share separate layouts without polluting the URL.
-5. **Stripe webhooks** — order status updated from webhook, not from client redirect, for reliability.
+2. **Per-request Prisma client in production** — Cloudflare Workers binds WebSocket connections to request contexts; React `cache()` + a Proxy creates a fresh client per request without changing any route handler.
+3. **App Router** — enables React Server Components for fast initial loads and simplified data fetching.
+4. **Zustand for cart** — persisted to localStorage; synced with DB when user is logged in.
+5. **Route Groups** — `(store)` and `admin` share separate layouts without polluting the URL.
+6. **Stripe webhooks** — order status updated from webhook, not from client redirect, for reliability.

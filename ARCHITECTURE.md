@@ -135,6 +135,31 @@ Admin uploads product image
   → Admin stores URL in product.images
 ```
 
+## Cloudflare Workers Considerations
+
+### Per-Request Prisma Client
+
+Cloudflare Workers binds WebSocket connections to the request context that created them. The `Pool` from `@neondatabase/serverless` uses a native WebSocket, which means a module-level singleton Pool **cannot** be reused across concurrent requests — doing so throws:
+
+```
+Cannot perform I/O on behalf of a different request. (I/O type: Native)
+```
+
+**Solution** (`src/lib/prisma.ts`): React's `cache()` function creates a fresh `PrismaClient` (and therefore a fresh `Pool` + WebSocket) for each incoming request. A `Proxy` wraps it so all existing `import { prisma }` usages work without changes.
+
+```
+Request A arrives
+  → cache(createPrismaClient) → new Pool + PrismaClient for A
+Request B arrives concurrently
+  → cache(createPrismaClient) → new Pool + PrismaClient for B  ← no context clash
+```
+
+In development a global singleton is used instead to avoid exhausting local connections.
+
+### Neon Keep-Alive
+
+Neon free tier suspends the database after 5 minutes of inactivity. A GitHub Actions cron (`.github/workflows/keep-alive.yml`) pings `GET /api/health` every 4 minutes to keep the DB warm and prevent cold-start errors.
+
 ## SEO Strategy
 
 - All product/category pages rendered server-side (not CSR)

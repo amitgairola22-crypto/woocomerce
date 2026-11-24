@@ -100,7 +100,7 @@ headers: [
 - Never commit `.env` to git (`.gitignore` excludes it)
 - Rotate `NEXTAUTH_SECRET` and Stripe keys if exposed
 - Use separate Stripe test keys for development
-- In production, use the platform's secret management (Vercel environment variables)
+- In production, use the platform's secret management (Cloudflare Pages → Settings → Environment variables)
 
 ## Dependency Security
 

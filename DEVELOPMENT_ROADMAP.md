@@ -80,6 +80,7 @@
 - [x] Cloudflare Pages deployment via OpenNext
 - [x] Neon PostgreSQL (serverless) database
 - [x] Keep-alive cron (GitHub Actions, every 4 min) to prevent Neon auto-suspend cold starts
+- [x] Per-request Prisma client via React `cache()` to fix Cloudflare Workers WebSocket context errors
 - [ ] Email templates (order confirmation)
 - [ ] SEO: sitemap.xml, robots.txt
 - [ ] Accessibility audit (ARIA, keyboard nav, contrast)

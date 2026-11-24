@@ -6,6 +6,13 @@ Format: `## [version] — YYYY-MM-DD` with sections `Added`, `Changed`, `Fixed`,
 
 ---
 
+## [0.3.0] — 2026-11-24
+
+### Fixed
+- **Critical**: "Cannot perform I/O on behalf of a different request" HTTP 500 on Cloudflare Workers — caused by `Pool` (WebSocket) singleton being shared across concurrent requests. Fixed by using React `cache()` to create a fresh Prisma client per request, with a Proxy for backward-compatible `import { prisma }` usage across all route handlers.
+
+---
+
 ## [0.2.0] — 2026-11-24
 
 ### Added
