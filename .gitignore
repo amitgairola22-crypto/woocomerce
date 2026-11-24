@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# OpenNext build output — contains baked-in env vars, never commit
+.open-next/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
