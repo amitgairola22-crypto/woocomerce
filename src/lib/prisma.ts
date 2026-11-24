@@ -1,10 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { PrismaNeon } from '@prisma/adapter-neon'
-import { Pool, neonConfig } from '@neondatabase/serverless'
-
-// Keep WebSocket transport (Pool) — required for Prisma transactions.
-// neonConfig.fetchConnectionCache reduces cold-start failures on Neon free tier.
-neonConfig.fetchConnectionCache = true
+import { Pool } from '@neondatabase/serverless'
 
 function createPrismaClient() {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL! })
